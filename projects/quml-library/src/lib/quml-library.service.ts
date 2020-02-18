@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as uuid from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +17,34 @@ export class QumlLibraryService {
   generateTelemetry(telemetryObject?: any) {
     const date = new Date();
     const telemetryData = {
-      'eid': 'DC_ASSESS', // asses
-      'mid': undefined,  // uuid
-      'ets': Date.now(), // time stamp
-      'did': telemetryObject.did,
-      'profileId': telemetryObject.profileId, // query param
-      'stallId': telemetryObject.stallId, // query param
-      'ideaId': telemetryObject.ideaId, // query param
-      'sid': telemetryObject.sid, // query param
-      'contentId': telemetryObject.contentId, // query param
-      'contentType': telemetryObject.contentType, // json
-      'contentName': telemetryObject.contentName, // json
-      'edata': {
-        'duration': telemetryObject.edata.duration, // json
-        'maxScore': telemetryObject.edata.maxScore, // json
-        'score': telemetryObject.edata.score // json
-      }
+      'id': 'api.sunbird.telemetry',
+      'ver': '3.0',
+      'params': {
+        'msgid': uuid.v4(),
+      },
+      'ets': Date.now(),
+      events: [{
+        'eid': 'DC_ASSESS', // asses
+        'mid': 'DC_ACCESS:' + uuid.v4(),  // uuid
+        'ets': Date.now(), // time stamp
+        'did': telemetryObject.did,
+        'profileId': telemetryObject.profileId, // query param
+        'stallId': telemetryObject.stallId, // query param
+        'ideaId': telemetryObject.ideaId, // query param
+        'sid': telemetryObject.sid, // query param
+        'contentId': telemetryObject.contentId, // query param
+        'contentType': telemetryObject.contentType, // json
+        'contentName': telemetryObject.contentName, // json
+        'edata': {
+          'duration': telemetryObject.edata.duration, // json
+          'maxScore': telemetryObject.edata.maxScore, // json
+          'score': telemetryObject.edata.score // json
+        }
+      }]
     };
     console.log('telemetry is', telemetryData);
+    this.http.post('https://devcon.sunbirded.org/content/data/v1/telemetry', telemetryData).subscribe(data => {
+      console.log(data);
+    });
   }
 }

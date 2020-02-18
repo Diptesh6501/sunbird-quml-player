@@ -1,7 +1,8 @@
 .quml-summary {
     text-align: center;
     background: #EEE;
-    height: 100%; overflow: hidden;
+    height: 100%; 
+    overflow: unset;
     padding-top: 5%;
 }
 .quml-completionStatus {

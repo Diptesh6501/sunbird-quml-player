@@ -9,6 +9,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class EndpageComponent implements OnInit {
   @Input() scoreSummary;
   @Output() replayContentEvent = new EventEmitter<any>();
+  @Input() info;
   score: any;
   constructor() {
 
@@ -16,6 +17,7 @@ export class EndpageComponent implements OnInit {
 
   ngOnInit() {
    console.log('score summary' , this.scoreSummary);
+   console.log('info is ' , this.info);
   }
   replayContent($event) {
     this.replayContentEvent.emit({});

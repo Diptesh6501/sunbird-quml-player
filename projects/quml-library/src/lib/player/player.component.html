@@ -12,7 +12,7 @@
   </slide>
 </carousel>
 <!-- [hidden]="!endPageReached" -->
-<quml-endpage *ngIf="endPageReached" [scoreSummary]="scoreSummary" (replayContentEvent) = "replayContent()"></quml-endpage>
+<quml-endpage *ngIf="endPageReached" [scoreSummary]="scoreSummary" [info]= "info" (replayContentEvent) = "replayContent()"></quml-endpage>
 <div class="quml-card" *ngIf="showAlert">
   <div class="quml-card-title">
     <p>Alert</p>
@@ -33,7 +33,7 @@
     </div> -->
   </div>
 </div>
-<div class="devcon-navbar-bottom">
+<div class="devcon-navbar-bottom" *ngIf="!endPageReached">
   <div class="devcon-button-container">
     <button (click)="prevSlide()">
       <span class="quml-previousIcon"></span>

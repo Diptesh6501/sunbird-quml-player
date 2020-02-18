@@ -1,3 +1,8 @@
+.quml-mcq {
+  background-image: url(https://i.ibb.co/py6TfLN/Bitmap-2x.jpg);
+  height: 100%;
+}
+
 .clipToTwoLines {
   line-height: 1.2em;
   max-height: 2.4em;
@@ -42,11 +47,6 @@
   text-align: center;
   width: 100px;
   cursor: pointer;
-}
-
-.quml-mcq {
-  background-image: url(https://i.ibb.co/py6TfLN/Bitmap-2x.jpg);
-  height: 100vh;
 }
 
 .quml-mcq .quml-mcq-questions {
@@ -152,11 +152,20 @@
   user-select: none;
 }
 
+.quml-mcq-container{
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 40rem;
+}
+
 /* Hide the browser's default radio button */
 .quml-mcq .container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
+}
+.quml-mcq .mcq-title {
+  color: white;
 }
 
 /* Create a custom radio button */

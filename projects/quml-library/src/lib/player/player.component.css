@@ -130,8 +130,8 @@
 }
 
 .devcon-button-container button {
-  border-radius: 40%;
-  padding: 1px 16px 1px 16px;
+  border-radius: 40px;
+  padding: 8px 16px;
   border: 8px solid #000037;
   background-color: #fff;
   outline: 0;
@@ -141,7 +141,7 @@
   position: absolute;
   right: 5px;
   margin: 1px;
-  top: -22px;
+  bottom:0px;
 }
 
 .quml-previousIcon {

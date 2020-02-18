@@ -55,19 +55,22 @@
             </div>
             <!-- <div class="quml-question-icon"></div> -->
         </div>
-        <div class="quml-mcq-options" *ngFor="let mcqOption of mcqOptions">
-            <div class="quml-option-card"
-                [ngClass]="(mcqOption.selected==true)?'quml-option-card selected-option':'quml-option-card'"
-                (click)="onOptionSelect($event,mcqOption)">
-                <div class="option" [ngClass]="(mcqOption.selected==true)?'option selected-option-text':'option'"
-                    [innerHTML]="mcqOption.optionHtml">
+        <div class="quml-mcq-container">
+            <div class="quml-mcq-options" *ngFor="let mcqOption of mcqOptions">
+                <div class="quml-option-card"
+                    [ngClass]="(mcqOption.selected==true)?'quml-option-card selected-option':'quml-option-card'"
+                    (click)="onOptionSelect($event,mcqOption)">
+                    <div class="option" [ngClass]="(mcqOption.selected==true)?'option selected-option-text':'option'"
+                        [innerHTML]="mcqOption.optionHtml">
+                    </div>
+                    <label class="container">
+                        <input type="radio" name="radio" [attr.checked]="(mcqOption.selected)== true? 'checked': null">
+                        <span class="checkmark"></span>
+                    </label>
                 </div>
-                <label class="container">
-                    <input type="radio" name="radio" [attr.checked]="(mcqOption.selected)== true? 'checked': null">
-                    <span class="checkmark"></span>
-                </label>
             </div>
         </div>
+      
     </div>
 </div>
 <!-- Multi Column Layout-->

@@ -116,3 +116,7 @@
         vertical-align: middle;
     }
 }
+
+.carousel-inner {
+    overflow: unset;
+}

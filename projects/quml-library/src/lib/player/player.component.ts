@@ -30,8 +30,13 @@ export class PlayerComponent implements OnInit {
   scoreSummary = {};
   questionData: any;
   currentQuestion: any;
-  defaultTelemetry = { did: '1234' , profileId: '1234' ,
-  stallId: '1234', ideaId: '1234' , sid: '1234' };
+  info: any;
+  now = Date.now();
+  after: any;
+  defaultTelemetry = {
+    did: '1234', profileId: '1234',
+    stallId: '1234', ideaId: '1234', sid: '1234'
+  };
   CarouselConfig = {
     NEXT: 1,
     PREV: 2
@@ -42,9 +47,9 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.telemetry = this.telemetry ? this.telemetry : this.defaultTelemetry;
-    this.telemetry = window['queryParamsObj'];
-    console.log('telemetry on init' , this.telemetry , window['queryParamsObj']);
+    this.telemetry = this.telemetry ? this.telemetry : this.defaultTelemetry;
+    // this.telemetry = window['queryParamsObj'];
+    console.log('telemetry on init', this.telemetry, window['queryParamsObj']);
     this.slideInterval = 0;
     this.showIndicator = false;
     this.noWrapSlides = true;
@@ -61,7 +66,7 @@ export class PlayerComponent implements OnInit {
   async getQuestionData() {
     return this.qumlLibraryService.getQuestions().then((data) => {
     }).catch((e) => {
-       this.questionData = questionSet.stage[0]['org.ekstep.questionset'][0]['org.ekstep.question'];
+      this.questionData = questionSet.stage[0]['org.ekstep.questionset'][0]['org.ekstep.question'];
     });
   }
 
@@ -82,7 +87,8 @@ export class PlayerComponent implements OnInit {
       this.getScoreSummary();
       return;
     }
-    if (this.optionSelectedObj === undefined || Object.keys(this.optionSelectedObj).length === 0) {
+    if (this.optionSelectedObj === undefined || Object.keys(this.optionSelectedObj).length === 0 ||
+      this.optionSelectedObj.result === false) {
       this.car.move(this.CarouselConfig.NEXT);
       this.optionSelectedObj = {};
       this.skippedQuestion = this.skippedQuestion + 1;
@@ -91,10 +97,15 @@ export class PlayerComponent implements OnInit {
       this.car.move(this.CarouselConfig.NEXT);
       this.answeredQuestionCorrectly = this.answeredQuestionCorrectly + 1;
       this.scoreSummary['answeredQuestionCorrectly'] = this.answeredQuestionCorrectly;
-    } else if (this.optionSelectedObj.result === false) {
-      this.showAlert = true;
     }
-    this.qumlLibraryService.generateTelemetry(this.generateTelemetry());
+    // else if (this.optionSelectedObj.result === false) {
+    // this.showAlert = true;
+    // }
+    this.after = Date.now();
+    if (this.currentQuestion) {
+      this.qumlLibraryService.generateTelemetry(this.generateTelemetry());
+    }
+    this.now = Date.now();
   }
 
   getScoreSummary() {
@@ -107,13 +118,20 @@ export class PlayerComponent implements OnInit {
 
   skip() {
     this.car.move(this.CarouselConfig.NEXT);
-    this.showAlert = false;
+    // this.showAlert = false;
     this.optionSelectedObj = {};
   }
 
 
-  getOptionSelected(optionSelected , question) {
+  getOptionSelected(optionSelected, question) {
     this.currentQuestion = question;
+    if (this.currentQuestion) {
+      this.info = {
+        name: JSON.parse(this.currentQuestion.config.__cdata).metadata.name,
+        author: JSON.parse(this.currentQuestion.config.__cdata).metadata.author
+      };
+    }
+    console.log('info is', this.info);
     this.optionSelectedObj = optionSelected;
   }
 
@@ -140,14 +158,14 @@ export class PlayerComponent implements OnInit {
   }
 
   generateTelemetry() {
-    console.log('this . telemetry generated here' , this.telemetry);
-    // this.telemetry.contentId = this.currentQuestion.id;
+    console.log('this . telemetry generated here', this.telemetry);
+    this.telemetry.contentId = this.currentQuestion.id;
     this.telemetry.contentType = this.currentQuestion.type;
-    this.telemetry.contentName = undefined;
+    this.telemetry.contentName = JSON.parse(this.currentQuestion.config.__cdata).metadata.name;
     this.telemetry.edata = {};
-    this.telemetry.edata.duration = undefined;
+    this.telemetry.edata.duration = Math.round((this.after - this.now) / 1000);
     this.telemetry.edata.maxScore = JSON.parse(this.currentQuestion.config.__cdata).max_score;
-    this.telemetry.edata.score = undefined;
+    this.telemetry.edata.score = JSON.parse(this.currentQuestion.config.__cdata).metadata.maxScore;
     return this.telemetry;
   }
 
