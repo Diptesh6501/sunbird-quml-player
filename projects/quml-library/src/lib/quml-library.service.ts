@@ -27,6 +27,7 @@ export class QumlLibraryService {
         'eid': 'DC_ASSESS', // asses
         'mid': 'DC_ACCESS:' + uuid.v4(),  // uuid
         'ets': Date.now(), // time stamp
+        'questionId': telemetryObject.questionId,
         'did': telemetryObject.did,
         'profileId': telemetryObject.profileId, // query param
         'stallId': telemetryObject.stallId, // query param

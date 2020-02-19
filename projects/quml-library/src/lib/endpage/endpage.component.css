@@ -70,7 +70,6 @@
 .quml-score-board {
     padding-top: 15%;
 }
-
 .quml-score-container {
     display: grid;
     grid-template-columns: .5fr 1.5fr .5fr ;
@@ -115,3 +114,6 @@
      border-radius: 100%;
      padding: 5px;
  }
+.score-board{
+    padding-top: 2em;
+}

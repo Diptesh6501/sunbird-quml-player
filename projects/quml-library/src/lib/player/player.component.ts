@@ -95,9 +95,10 @@ export class PlayerComponent implements OnInit {
       this.scoreSummary['skippedQuestion'] = this.skippedQuestion;
     } else if (this.optionSelectedObj.result) {
       this.car.move(this.CarouselConfig.NEXT);
-      this.answeredQuestionCorrectly = this.answeredQuestionCorrectly + 1;
-      this.scoreSummary['answeredQuestionCorrectly'] = this.answeredQuestionCorrectly;
+      this.scoreSummary['answeredQuestionCorrectly'] = this.answeredQuestionCorrectly ++;
+      this.optionSelectedObj = {};
     }
+    // devcon
     // else if (this.optionSelectedObj.result === false) {
     // this.showAlert = true;
     // }
@@ -160,6 +161,7 @@ export class PlayerComponent implements OnInit {
   generateTelemetry() {
     console.log('this . telemetry generated here', this.telemetry);
     this.telemetry.contentId = this.currentQuestion.id;
+    this.telemetry.questionId = JSON.parse(this.currentQuestion.config.__cdata).metadata.identifier;
     this.telemetry.contentType = this.currentQuestion.type;
     this.telemetry.contentName = JSON.parse(this.currentQuestion.config.__cdata).metadata.name;
     this.telemetry.edata = {};

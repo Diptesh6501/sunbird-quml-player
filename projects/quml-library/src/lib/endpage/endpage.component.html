@@ -3,7 +3,7 @@
     You Just Completed
   </div>
   <div class="quml-contentTitle" *ngIf="info?.name">
-    {{info?.name}}
+    Name : {{info?.name}}
   </div>
   <div class="quml-contentAuthor" *ngIf="info?.author">
     Author : {{info?.author}}
@@ -18,7 +18,7 @@
     </div>
     <div class="quml-item2">
       <div class="quml-timeReport">
-        <div class="score-board padding-top">
+        <div class="score-board">
           <p><span>Score</span> : {{scoreSummary.answeredQuestionCorrectly}}/{{scoreSummary.totalNoOfQuestions}}</p>
         </div>
       </div>
@@ -50,6 +50,6 @@
     </div> -->
 
   <div class="quml-license">
-    Licensed under CC by 4.0 License
+    <!-- Licensed under CC by 4.0 License -->
   </div>
 </div>

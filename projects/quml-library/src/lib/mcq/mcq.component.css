@@ -1,6 +1,5 @@
 .quml-mcq {
   background-image: url(https://i.ibb.co/py6TfLN/Bitmap-2x.jpg);
-  height: 100%;
 }
 
 .clipToTwoLines {
@@ -72,7 +71,7 @@
 
 .quml-mcq .quml-question {
   font-size: 14px;
-  color: #666666;
+  color: white;
   font-weight: bold;
 }
 
