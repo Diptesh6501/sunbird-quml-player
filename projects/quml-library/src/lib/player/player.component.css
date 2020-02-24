@@ -128,6 +128,9 @@
   position: fixed;
   bottom: 0;
 }
+.quml-mcq.quml-option-card .option{
+  padding: 10px;
+}
 
 .devcon-button-container button {
   border-radius: 40px;

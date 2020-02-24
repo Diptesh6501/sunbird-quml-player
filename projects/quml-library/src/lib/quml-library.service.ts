@@ -37,6 +37,9 @@ export class QumlLibraryService {
         'contentType': telemetryObject.contentType, // json
         'contentName': telemetryObject.contentName, // json
         'edata': {
+          'profileUrl': telemetryObject.profileUrl,
+          'osid': telemetryObject.profileId,
+          'name': telemetryObject.name,
           'duration': telemetryObject.edata.duration, // json
           'maxScore': telemetryObject.edata.maxScore, // json
           'score': telemetryObject.edata.score // json
@@ -44,6 +47,7 @@ export class QumlLibraryService {
       }]
     };
     console.log('telemetry is', telemetryData);
+    console.log('telemetry data stringified', JSON.stringify(telemetryData));
     this.http.post('https://devcon.sunbirded.org/content/data/v1/telemetry', telemetryData).subscribe(data => {
       console.log(data);
     });

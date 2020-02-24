@@ -2,13 +2,13 @@
 <carousel [interval]="slideInterval" [showIndicators]="showIndicator" [noWrap]="noWrapSlides" #car
   [hidden]="endPageReached">
   <slide *ngFor="let question of questions">
-    <div *ngIf="question.questionType === 'reference'">
+    <!-- <div *ngIf="question.questionType === 'reference'">
       <quml-sa [questions]='question.data' [identifier]="question.id" id={{question.id}}></quml-sa>
     </div>
-    <div *ngIf="question.questionType === 'mcq'">
+    <div *ngIf="question.questionType === 'mcq'"> -->
       <quml-mcq [questions]='question.data' (optionSelected)="getOptionSelected($event , question)" [identifier]="question.id"
         id={{question.id}}></quml-mcq>
-    </div>
+    <!-- </div> -->
   </slide>
 </carousel>
 <!-- [hidden]="!endPageReached" -->
@@ -43,3 +43,5 @@
     </button>
   </div>
 </div>
+
+

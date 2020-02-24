@@ -35,7 +35,7 @@
     padding: 8px;
 }
 
-.options{
+.options {
     word-break: break-all;
     padding: 15px 5px;
     /* display: inline !important; */
@@ -64,7 +64,7 @@
     display: inline !important;
 }
 
-.padding-top{
+.padding-top {
     padding-top: 16px;
 }
 
@@ -79,6 +79,7 @@
         display: inline-block;
         vertical-align: middle;
     }
+
     .column-block {
         display: inline-block;
         width: 42%;
@@ -97,6 +98,7 @@
         display: inline-block;
         vertical-align: middle;
     }
+
     .column-block {
         display: inline-block;
         width: 45%;
@@ -105,6 +107,7 @@
 }
 
 @media only screen and (min-width: 801px) and (max-width: 1200px) {
+
     .even,
     .odd {
         width: 45%;
@@ -119,4 +122,8 @@
 
 .carousel-inner {
     overflow: unset;
+}
+
+.option p {
+    margin-bottom: 0rem;
 }

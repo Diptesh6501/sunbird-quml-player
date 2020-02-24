@@ -8,10 +8,10 @@ declare var katex: any;
 @Component({
   selector: 'quml-mcq',
   templateUrl: './mcq.component.html',
-  styleUrls: ['./mcq.component.css' , '../quml-library.component.css'],
+  styleUrls: ['./mcq.component.css', '../quml-library.component.css'],
 
 })
-export class McqComponent implements OnInit , AfterViewInit {
+export class McqComponent implements OnInit, AfterViewInit {
 
 
   @Input() public questions?: any;
@@ -23,7 +23,7 @@ export class McqComponent implements OnInit , AfterViewInit {
   @Input() public layout?: string;
   @Output() componentLoaded = new EventEmitter<any>();
   @Output() answerChanged = new EventEmitter<any>();
-  elementRefer:any;
+  elementRefer: any;
   @ViewChild('question') questionTag: any;
   @Output() optionSelected = new EventEmitter<number>();
 
@@ -34,7 +34,7 @@ export class McqComponent implements OnInit , AfterViewInit {
 
   ngOnInit() {
 
-    this.componentLoaded.emit({event: 'mcq component has been loaded'});
+    this.componentLoaded.emit({ event: 'mcq component has been loaded' });
     this.renderLatex();
     this.questions = this.questions ? this.questions : questionData;
     this.layout = this.layout ? this.layout : 'new';
@@ -99,17 +99,17 @@ export class McqComponent implements OnInit , AfterViewInit {
     parsedQuestion.options.forEach((element) => {
       if (element.value.body === mcqOption.optionHtml) {
         const selectedOption = {
-            selectedOption : element,
-            result : element.answer
+          selectedOption: element,
+          result: element.answer
         };
-      this.getSelectedOptionAndResult(selectedOption);
+        this.getSelectedOptionAndResult(selectedOption);
       }
     });
   }
 
-   getSelectedOptionAndResult (optionObj) {
-     this.optionSelected.emit(optionObj);
-   }
+  getSelectedOptionAndResult(optionObj) {
+    this.optionSelected.emit(optionObj);
+  }
 
   switchLayout(stripData) {
     this.layout = stripData.text;

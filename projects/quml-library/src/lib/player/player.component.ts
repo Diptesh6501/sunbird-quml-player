@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { CarouselComponent } from 'ngx-bootstrap/carousel';
 import { questionSet } from './data';
+import { questionSetHome } from './data-home';
 import { QumlLibraryService } from '../quml-library.service';
 
 
@@ -34,8 +35,14 @@ export class PlayerComponent implements OnInit {
   now = Date.now();
   after: any;
   defaultTelemetry = {
-    did: '1234', profileId: '1234',
-    stallId: '1234', ideaId: '1234', sid: '1234'
+    did: '1234',
+    profileId: '1234',
+    stallId: '1234',
+    ideaId: '1234',
+    sid: '1234',
+    type: 'class',
+    profileUrl: 'http',
+    name: 'diptesh'
   };
   CarouselConfig = {
     NEXT: 1,
@@ -47,9 +54,8 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.telemetry = this.telemetry ? this.telemetry : this.defaultTelemetry;
-    // this.telemetry = window['queryParamsObj'];
-    console.log('telemetry on init', this.telemetry, window['queryParamsObj']);
+    // this.telemetry = this.telemetry ? this.telemetry : this.defaultTelemetry;
+    this.telemetry = window['queryParamsObj'];
     this.slideInterval = 0;
     this.showIndicator = false;
     this.noWrapSlides = true;
@@ -66,7 +72,11 @@ export class PlayerComponent implements OnInit {
   async getQuestionData() {
     return this.qumlLibraryService.getQuestions().then((data) => {
     }).catch((e) => {
-      this.questionData = questionSet.stage[0]['org.ekstep.questionset'][0]['org.ekstep.question'];
+      if (this.telemetry.type === 'class') {
+        this.questionData = questionSet.stage[0]['org.ekstep.questionset'][0]['org.ekstep.question'];
+      } else if (this.telemetry.type === 'home') {
+        this.questionData = questionSetHome.stage[0]['org.ekstep.questionset'][0]['org.ekstep.question'];
+      }
     });
   }
 
@@ -85,28 +95,31 @@ export class PlayerComponent implements OnInit {
     if (this.car.getCurrentSlideIndex() + 1 === this.questions.length) {
       this.endPageReached = true;
       this.getScoreSummary();
+      if (this.currentQuestion) {
+        this.qumlLibraryService.generateTelemetry(this.generateTelemetry());
+      }
       return;
     }
     if (this.optionSelectedObj === undefined || Object.keys(this.optionSelectedObj).length === 0 ||
       this.optionSelectedObj.result === false) {
       this.car.move(this.CarouselConfig.NEXT);
-      this.optionSelectedObj = {};
       this.skippedQuestion = this.skippedQuestion + 1;
       this.scoreSummary['skippedQuestion'] = this.skippedQuestion;
     } else if (this.optionSelectedObj.result) {
       this.car.move(this.CarouselConfig.NEXT);
-      this.scoreSummary['answeredQuestionCorrectly'] = this.answeredQuestionCorrectly ++;
-      this.optionSelectedObj = {};
+      this.scoreSummary['answeredQuestionCorrectly'] = this.answeredQuestionCorrectly++;
     }
     // devcon
     // else if (this.optionSelectedObj.result === false) {
     // this.showAlert = true;
     // }
     this.after = Date.now();
+    console.log('current question value is', this.currentQuestion);
     if (this.currentQuestion) {
       this.qumlLibraryService.generateTelemetry(this.generateTelemetry());
     }
     this.now = Date.now();
+    this.optionSelectedObj = {};
   }
 
   getScoreSummary() {
@@ -125,6 +138,8 @@ export class PlayerComponent implements OnInit {
 
 
   getOptionSelected(optionSelected, question) {
+    console.log('option selected', optionSelected);
+    console.log('question', question);
     this.currentQuestion = question;
     if (this.currentQuestion) {
       this.info = {
@@ -166,8 +181,23 @@ export class PlayerComponent implements OnInit {
     this.telemetry.contentName = JSON.parse(this.currentQuestion.config.__cdata).metadata.name;
     this.telemetry.edata = {};
     this.telemetry.edata.duration = Math.round((this.after - this.now) / 1000);
-    this.telemetry.edata.maxScore = JSON.parse(this.currentQuestion.config.__cdata).max_score;
-    this.telemetry.edata.score = JSON.parse(this.currentQuestion.config.__cdata).metadata.maxScore;
+    this.telemetry.edata.maxScore = '0';
+    this.telemetry.edata.score = '0';
+    if (Boolean(Object.keys(this.optionSelectedObj).length)) {
+      if (this.optionSelectedObj.selectedOption.value.body === 'Yes') {
+        this.telemetry.edata.maxScore = '1';
+        this.telemetry.edata.score = '1';
+      } else if (this.optionSelectedObj.selectedOption.value.body === 'No') {
+        this.telemetry.edata.maxScore = '0';
+        this.telemetry.edata.score = '0';
+      } else if (this.optionSelectedObj.result === true) {
+        this.telemetry.edata.maxScore = '1';
+        this.telemetry.edata.score = '1';
+      } else if (this.optionSelectedObj.result === false) {
+        this.telemetry.edata.maxScore = '0';
+        this.telemetry.edata.score = '0';
+      }
+    }
     return this.telemetry;
   }
 

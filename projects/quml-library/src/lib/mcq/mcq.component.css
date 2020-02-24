@@ -1,6 +1,7 @@
 .quml-mcq {
-  background-image: url(https://i.ibb.co/py6TfLN/Bitmap-2x.jpg);
+  background-image: url(https://i.ibb.co/HYXsP7g/Bitmap-2x-new.jpg);
 }
+
 
 .clipToTwoLines {
   line-height: 1.2em;
@@ -13,6 +14,8 @@
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
 }
+
+
 
 .question.collapsible {
   max-height: 30em;
@@ -142,7 +145,7 @@
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
+  margin-bottom: 17px;
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
@@ -154,7 +157,8 @@
 .quml-mcq-container{
   overflow-y: auto;
   overflow-x: hidden;
-  height: 40rem;
+  min-height: 30rem;
+  max-height: 40rem;
 }
 
 /* Hide the browser's default radio button */
@@ -208,3 +212,5 @@
 }
 
 .quml-option-background {}
+
+
